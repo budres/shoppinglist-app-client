@@ -60,6 +60,7 @@
 
 .shoppingListItemNameCompleted {
     text-decoration: line-through;
+    max-width: 85%;
 }
 
 /* shoppingList users */
