@@ -1,0 +1,84 @@
+/* icons */
+.icon {
+    margin-right: 10px;
+}
+
+.icon:hover {
+    cursor: pointer;
+    color: #777777;
+}
+
+.deleteIcon {
+    margin-left: auto;
+    cursor: pointer;
+}
+
+.deleteIcon:hover {
+    color: #ff0000;
+}
+
+/* view */
+.viewTileColumn {
+    margin-bottom: 1rem;
+}
+
+.viewInfoColumn {
+    margin-bottom: 1rem;
+}
+
+/* no shopping list */
+.noList {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 250%;
+    color: #777777;
+}
+
+/* shoppingList head */
+.shoppingListHead {
+    display: flex;
+    align-items: center;
+    word-wrap: break-word;
+}
+
+/* shoppingList tile */
+.itemsListGroup {
+    margin-top: 1rem;
+}
+
+/* shoppingList item */
+.shoppingListItem {
+    display: flex !important; /* override bootstrap */
+    align-items: center;
+}
+
+.shoppingListItemName {
+    max-width: 85%;
+}
+
+.shoppingListItemNameCompleted {
+    text-decoration: line-through;
+}
+
+/* shoppingList users */
+.usersListGroup {
+    margin-top: 1rem;
+}
+
+/* shoppingList user */
+.userItem {
+    display: flex !important; /* override bootstrap */
+    align-items: center;
+}
+
+.userInfo {
+    flex-direction: column;
+    max-width: 65%;
+}
+
+.userTag {
+    font-size: 0.95rem;
+    color: grey;
+}
