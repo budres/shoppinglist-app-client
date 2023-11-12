@@ -3,7 +3,7 @@ import ListGroup from "react-bootstrap/esm/ListGroup"
 import ListGroupItem from "react-bootstrap/esm/ListGroupItem"
 import Card from "react-bootstrap/esm/Card"
 import Form from "react-bootstrap/esm/Form"
-import styles from "../css/shoppingList.module.css"
+import styles from "../../css/shoppingList.module.css"
 
 import ShoppingListItem from "./ShoppingListItem"
 import ShoppingListHead from "./ShoppingListHead"
@@ -79,10 +79,6 @@ const ShoppingListTile = ({ params: shoppingList, handlers: { onRemoveList, onRe
                     )}
                 </ListGroup>
             </Card.Body>
-
-
-
-
         </Card>
 
 

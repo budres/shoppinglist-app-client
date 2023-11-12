@@ -3,7 +3,7 @@ import ListGroupItem from "react-bootstrap/ListGroupItem"
 import Form from "react-bootstrap/Form"
 import Icon from "@mdi/react"
 import { mdiCheckboxBlankOutline, mdiCheckboxOutline, mdiDelete, mdiCheck, mdiClose } from "@mdi/js"
-import styles from "../css/shoppingList.module.css"
+import styles from "../../css/shoppingList.module.css"
 
 const ShoppingListItem = ({ shoppingListItem, onSwitchCompleted, onRenameItem, onRemoveItem }) => {
     const [isEditing, setIsEditing] = useState(false)

@@ -3,7 +3,7 @@ import Card from 'react-bootstrap/Card'
 import Form from 'react-bootstrap/Form'
 import Icon from '@mdi/react'
 import { mdiDelete, mdiPencil, mdiFilter, mdiFilterOutline, mdiCheck, mdiClose } from '@mdi/js'
-import styles from '../css/shoppingList.module.css'
+import styles from '../../css/shoppingList.module.css'
 
 
 const ShoppingListHead = ({ shoppingList, onRenameList, onRemoveList, onFilterByCompleted }) => {

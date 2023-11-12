@@ -1,28 +1,29 @@
-import './App.css';
-import View from './bricks/detail/ViewDetail';
-import 'bootstrap/dist/css/bootstrap.min.css'
-import { useState, useEffect } from 'react';
-import ShoppingListDetail from './routes/ShoppingListDetail';
-import styles from './css/shoppingList.module.css'
-
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import Icon from "@mdi/react";
 import { mdiLoading } from "@mdi/js";
+import styles from "../css/shoppingList.module.css";
 
-import ViewList from "./bricks/list/ViewList";
+import ViewDetail from "../bricks/detail/ViewDetail";
 
-
-function App() {
+const ShoppingListDetail = () => {
 
     const [shoppingListLoadCall, setShoppingListLoadCall] = useState({
         state: "pending",
-    })
+    });
+    let [searchParams] = useSearchParams();
+
+    const shoppingListId = searchParams.get("id");
 
     useEffect(() => {
         setShoppingListLoadCall({
             state: "pending",
         });
 
-        const url = "http://localhost:3000/shopping-list";
+        const params = new URLSearchParams();
+        params.append("id", shoppingListId);
+
+        const url = "http://localhost:3000/shopping-list/?" + params;
 
         (async () => {
             try {
@@ -38,7 +39,7 @@ function App() {
             }
         })();
         
-    }, []);
+    }, [shoppingListId]);
 
     return () => {
         switch (shoppingListLoadCall.state) {
@@ -50,7 +51,7 @@ function App() {
                 );
             case "success":
                 return (
-                    <ViewList shoppingList={shoppingListLoadCall.data}/>
+                    <ViewDetail shoppingList={shoppingListLoadCall.data} />
                 );
             case "error":
                 return (
@@ -66,4 +67,4 @@ function App() {
     }
 }
 
-export default App;
+export default ShoppingListDetail

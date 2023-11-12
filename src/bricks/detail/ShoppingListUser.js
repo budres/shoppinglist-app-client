@@ -1,6 +1,6 @@
 import React from "react";
 
-import styles from "../css/shoppingList.module.css";
+import styles from "../../css/shoppingList.module.css";
 
 // add delete user button
 // add user icon

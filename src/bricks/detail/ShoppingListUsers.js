@@ -6,7 +6,7 @@ import ListGroup from "react-bootstrap/ListGroup";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import { useState } from "react";
-import styles from "../css/shoppingList.module.css";
+import styles from "../../css/shoppingList.module.css";
 
 const ShoppingListUserList = ({ params: { users: userIds }, handlers: { onAddUser, onRemoveUser, getUser } }) => {
 

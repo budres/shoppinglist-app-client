@@ -8,9 +8,9 @@ import { Container, Row, Col } from 'react-bootstrap';
 
 import { v4 as uuidv4 } from 'uuid'
 
-import styles from "../css/shoppingList.module.css";
+import styles from "../../css/shoppingList.module.css";
 
-const View = ({ users, setUsers, shoppingList, setShoppingList }) => {
+const ViewDetail = ({ users, setUsers, shoppingList, setShoppingList }) => {
 
     const {
         ShoppingListTileHandlers,
@@ -19,35 +19,33 @@ const View = ({ users, setUsers, shoppingList, setShoppingList }) => {
     } = getHandlers(users, setUsers, shoppingList, setShoppingList)
 
     return (
-        <>
-            {!shoppingList._id ? (
-                <div className={styles.noList}>No list selected</div>
-            ) : (
-                <Container>
-                    <Row>
-                        <Col sm={12} lg={8} className={styles.viewTileColumn}>
-                            <ShoppingListTile
-                                params={shoppingList}
-                                handlers={ShoppingListTileHandlers}
-                            />
-                        </Col>
-                        <Col sm={12} lg={4}>
-                            <Col className={styles.viewInfoColumn}>
-                                <ShoppingListInfo
-                                    params={shoppingList}
-                                    handlers={ShoppingListInfoHandlers}
-                                />
-                            </Col>
-                            <Col><ShoppingListUsers
-                                params={shoppingList}
-                                handlers={ShoppingListUsersHandlers}
-                            /></Col>
 
-                        </Col>
-                    </Row>
-                </Container>
-            )}
-        </>
+        <Container>
+            <Row>
+                <Col sm={12} lg={6} className={styles.viewTileColumn}>
+                    <ShoppingListTile
+                        params={shoppingList}
+                        handlers={ShoppingListTileHandlers}
+                    />
+                </Col>
+                <Col sm={12} lg={3}>
+                    <Col className={styles.viewInfoColumn}>
+                        <ShoppingListInfo
+                            params={shoppingList}
+                            handlers={ShoppingListInfoHandlers}
+                        />
+                    </Col>
+                    <Col>
+                        <ShoppingListUsers
+                            params={shoppingList}
+                            handlers={ShoppingListUsersHandlers}
+                        />
+                    </Col>
+
+                </Col>
+            </Row>
+        </Container>
+
     );
 }
 
@@ -167,4 +165,4 @@ const getHandlers = (users, setUsers, shoppingList, setShoppingList) => {
 
 
 
-export default View;
+export default ViewDetail
