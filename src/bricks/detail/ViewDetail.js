@@ -126,9 +126,6 @@ const getHandlers = (users, setUsers, shoppingList, setShoppingList) => {
         ShoppingListUsersHandlers: {
             onAddUser: (tag) => {
 
-                console.log(tag)
-                console.log(users)
-
                 const user = users.find((u) => u.tag === tag)
                 if (!user) {
                     alert('User not found')

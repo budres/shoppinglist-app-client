@@ -6,7 +6,7 @@ import styles from "../css/shoppingList.module.css";
 
 import ViewDetail from "../bricks/detail/ViewDetail";
 
-const ShoppingListDetail = () => {
+const ListDetail = () => {
 
     const [shoppingListLoadCall, setShoppingListLoadCall] = useState({
         state: "pending",
@@ -67,4 +67,4 @@ const ShoppingListDetail = () => {
     }
 }
 
-export default ShoppingListDetail
+export default ListDetail

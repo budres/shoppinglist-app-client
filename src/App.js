@@ -2,7 +2,7 @@ import './App.css';
 import View from './bricks/detail/ViewDetail';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { useState, useEffect } from 'react';
-import ShoppingListDetail from './routes/ShoppingListDetail';
+import ListDetail from './routes/list-detail';
 import styles from './css/shoppingList.module.css'
 
 import Icon from "@mdi/react";
@@ -22,7 +22,7 @@ function App() {
             state: "pending",
         });
 
-        const url = "http://localhost:3000/shopping-list";
+        const url = "http://localhost:8000/api/shopping-lists";
 
         (async () => {
             try {
@@ -55,7 +55,7 @@ function App() {
             case "error":
                 return (
                     <div className={styles.error}>
-                        <div>Nepodařilo se načíst data o třídě.</div>
+                        <div>Failed loading shopping lists</div>
                         <br />
                         <pre>{JSON.stringify(shoppingListLoadCall.error, null, 2)}</pre>
                     </div>
