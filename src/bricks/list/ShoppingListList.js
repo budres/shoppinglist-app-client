@@ -8,7 +8,7 @@ import { Button, ListGroup, Modal } from 'react-bootstrap'
 
 import Item from "./ShoppingListListItem";
 
-const ShoppingListList = ({ params: { shoppingLists }, handlers: { onAddList, onSwitchArchived } }) => {
+const ShoppingListList = ({ params: shoppingLists, handlers: { onCreate, onToggleArchived } }) => {
 
     // filter button
     // add shoppinglist button launching modal
@@ -21,14 +21,35 @@ const ShoppingListList = ({ params: { shoppingLists }, handlers: { onAddList, on
     const handleClose = () => setShow(false);
 
     const handleSubmit = () => {
-        onAddList(listName)
+        if (listName.trim() === "") {
+            return
+        }
+
+        onCreate({ name: listName })
         handleClose()
+    }
+
+    const [filterByArchived, setFilterByArchived] = useState(false);
+    const handleFilterByArchived = () => {
+        setFilterByArchived(!filterByArchived);
     }
 
     return (
         <Card>
             <Card.Body>
-                <Button variant='light'>Show archived</Button>
+                {filterByArchived ? (
+                    <Icon
+                        size={1}
+                        path={mdiFilter}
+                        onClick={handleFilterByArchived}
+                    />
+                ) : (
+                    <Icon
+                        size={1}
+                        path={mdiFilterOutline}
+                        onClick={handleFilterByArchived}
+                    />
+                )}
                 <Button variant='light' onClick={handleShow}>Add a list</Button>
                 <Modal show={show} onHide={handleClose}>
                     <Modal.Header closeButton>
@@ -56,9 +77,13 @@ const ShoppingListList = ({ params: { shoppingLists }, handlers: { onAddList, on
 
                 <ListGroup>
                     {
-                        shoppingLists.map((shoppinglist) => (
-                            <Item key={shoppinglist._id} shoppinglist={shoppinglist} />
-                        ))
+                        shoppingLists.map((shoppingList) => {
+                            if (filterByArchived && shoppingList.isArchived) {
+                                return null
+                            }
+
+                            return (<Item key={shoppingList.id} shoppingList={shoppingList} onToggleArchived={onToggleArchived} />)
+                        })
                     }
                 </ListGroup>
             </Card.Body>

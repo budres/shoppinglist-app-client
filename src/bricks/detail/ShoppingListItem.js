@@ -23,13 +23,19 @@ const ShoppingListItem = ({ shoppingListItem, onSwitchCompleted, onRenameItem, o
             return
         }
 
-        onRenameItem(shoppingListItem._id, itemName)
+        onRenameItem(shoppingListItem.id, itemName)
         setIsEditing(false)
     }
 
     const handleCancelEditItemName = () => {
         setItemName(shoppingListItem.name)
         setIsEditing(false)
+    }
+
+    const handleOnToggleCompleted = () => {
+        onSwitchCompleted(shoppingListItem.id, shoppingListItem.isCompleted)
+        console.log(shoppingListItem)
+        shoppingListItem.isCompleted = !shoppingListItem.isCompleted
     }
 
     return (
@@ -39,7 +45,7 @@ const ShoppingListItem = ({ shoppingListItem, onSwitchCompleted, onRenameItem, o
                 path={
                     shoppingListItem.isCompleted ? mdiCheckboxOutline : mdiCheckboxBlankOutline
                 }
-                onClick={() => onSwitchCompleted(shoppingListItem._id)}
+                onClick={handleOnToggleCompleted}
                 className={styles.icon}
             />
             {isEditing ? (
@@ -80,7 +86,7 @@ const ShoppingListItem = ({ shoppingListItem, onSwitchCompleted, onRenameItem, o
                     <Icon
                         size={1}
                         path={mdiDelete}
-                        onClick={() => onRemoveItem(shoppingListItem._id)}
+                        onClick={() => onRemoveItem(shoppingListItem.id)}
                         className={styles.deleteIcon}
                     />
                 </>

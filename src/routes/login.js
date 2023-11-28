@@ -1,57 +1,56 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Form, Button, Alert, Spinner } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { Form, Button, Alert, Spinner } from 'react-bootstrap'
 
 const LoginForm = () => {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState('');
-    const [token, setToken] = useState(null);
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState('')
+    const [token, setToken] = useState(null)
+    const [user, setUser] = useState(null)
 
-    localStorage.removeItem('token');
+    localStorage.removeItem('token')
+    localStorage.removeItem('user')
 
-    const navigate = useNavigate();
+    const navigate = useNavigate()
 
     useEffect(() => {
         // Check if a token exists in local storage on component mount
-        const storedToken = localStorage.getItem('token');
-        if (storedToken) {
-            setToken(storedToken);
-            navigate('/shopping-lists');
+        const storedToken = localStorage.getItem('token')
+        const storedUser = localStorage.getItem('user')
+        if (storedToken && storedUser) {
+            setToken(storedToken)
+            setUser(storedUser)
+            navigate('/shopping-lists')
         }
-    }, [navigate]);
+    }, [navigate])
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
+        e.preventDefault()
 
         // Reset previous error message
-        setError('');
+        setError('')
 
-        // Set loading state to true
-        setLoading(true);
+        setLoading(true)
 
         try {
-            // Simulate an asynchronous login request (replace with your actual API call)
-            const response = await login(username, password);
-
+            const response = await login(username, password)
             const token = response.token
             
-            setToken(token);
+            setToken(token)
+            setUser(user)
 
-            // Store the token in local storage
-            localStorage.setItem('token', token);
+            localStorage.setItem('token', token)
+            localStorage.setItem('user', user)  
 
-            // Redirect to /shopping-lists
-            navigate('/shopping-lists');
+            navigate('/shopping-lists')
         } catch (error) {
-            // Simulated error
-            setError(error.message);
+            setError(error.message)
         } finally {
-            // Set loading state back to false
-            setLoading(false);
+            setLoading(false)
         }
-    };
+    }
 
     return (
         <div>
@@ -91,10 +90,9 @@ const LoginForm = () => {
                 </Form>
             )}
         </div>
-    );
-};
+    )
+}
 
-// Simulated login function (replace with your actual API call)
 const login = (tag, password) => {
     return new Promise((resolve, reject) => {
         fetch('http://localhost:8000/api/auth/login', {
@@ -104,17 +102,18 @@ const login = (tag, password) => {
             },
             body: JSON.stringify({ tag, password }),
         })
-            .then((res) => {
+            .then(async (res) => {
+                const data = await res.json()
                 if (res.ok) {
-                    resolve(res.json());
+                    resolve(data)
                 } else {
-                    reject(res.json());
+                    reject(data)
                 }
             })
             .catch((error) => {
-                reject(error);
-            });
-    });
-};
+                reject(error)
+            })
+    })
+}
 
-export default LoginForm;
+export default LoginForm

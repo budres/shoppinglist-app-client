@@ -17,10 +17,9 @@ root.render(
         <BrowserRouter>
             <Routes>
                 {/* Redirect from root to /shopping-lists */}
-                <Route path="/" element={<Navigate to="/shopping-lists" />} />Ï
-                <Route path="/shopping-lists" element={<ShoppingLists />}>
-                    <Route path=":id" element={<ListDetail />} />
-                </Route>
+                <Route path="/" element={<Navigate to="/shopping-lists" />} />
+                <Route path="/shopping-lists" element={<ShoppingLists />} />
+                <Route path="/shopping-lists/:id" element={<ListDetail />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
             </Routes>

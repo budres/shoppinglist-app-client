@@ -29,8 +29,6 @@ const ShoppingListTile = ({ params: shoppingList, handlers: { onRemoveList, onRe
         setFilterByCompleted(filterByCompleted);
     }
 
-
-
     return (
         <Card >
             <Card.Body >
@@ -68,7 +66,7 @@ const ShoppingListTile = ({ params: shoppingList, handlers: { onRemoveList, onRe
 
                             return (
                                 <ShoppingListItem
-                                    key={item._id}
+                                    key={item.id}
                                     shoppingListItem={item}
                                     onSwitchCompleted={onSwitchCompleted}
                                     onRenameItem={onRenameItem}

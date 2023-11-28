@@ -1,44 +1,37 @@
-import React, { useState } from 'react';
-import { Form, Button, Alert, Spinner } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react'
+import { Form, Button, Alert, Spinner } from 'react-bootstrap'
+import { useNavigate } from 'react-router-dom'
 
-const Register = () => {
-    const [name, setName] = useState('');
-    const [tag, setTag] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState('');
-    const navigate = useNavigate();
+const RegisterForm = () => {
+    const [name, setName] = useState('')
+    const [tag, setTag] = useState('')
+    const [password, setPassword] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState('')
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState('')
+    const navigate = useNavigate()
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
+        e.preventDefault()
 
         if (password !== confirmPassword) {
-            setError('Passwords do not match.');
-            return;
+            setError('Passwords do not match.')
+            return
         }
 
-        // Reset previous error message
-        setError('');
+        setError('')
 
-        // Set loading state to true
-        setLoading(true);
+        setLoading(true)
 
         try {
-            // Simulate an asynchronous registration request (replace with your actual API call)
-            const response = await simulateRegistration(name, tag, password);
-
-            // Simulated success
-            navigate('/login');
+            await register(name, tag, password)
+            navigate('/login')
         } catch (error) {
-            // Simulated error
-            setError('Registration failed. Please try again.');
+            setError(error.message)
         } finally {
-            // Set loading state back to false
-            setLoading(false);
+            setLoading(false)
         }
-    };
+    }
 
     return (
         <Form onSubmit={handleSubmit}>
@@ -88,11 +81,10 @@ const Register = () => {
 
             {error && <Alert variant="danger">{error}</Alert>}
         </Form>
-    );
-};
+    )
+}
 
-// Simulated registration function (replace with your actual API call)
-const simulateRegistration = (name, tag, password) => {
+const register = (name, tag, password) => {
     return new Promise((resolve, reject) => {
         fetch('http://localhost:8000/api/auth/register', {
             method: 'POST',
@@ -101,17 +93,13 @@ const simulateRegistration = (name, tag, password) => {
             },
             body: JSON.stringify({ name, tag, password }),
         })
-            .then((response) => {
-                if (response.ok) {
-                    resolve(response.json());
-                } else {
-                    reject(response.json());
-                }
+            .then(async (res) => {
+                const data = await res.json()
+                if (res.ok) resolve(data)
+                else reject(data)
             })
-            .catch((error) => {
-                reject(error);
-            });
-    });
-};
+            .catch((error) => reject(error))
+    })
+}
 
-export default Register;
+export default RegisterForm

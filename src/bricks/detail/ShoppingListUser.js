@@ -25,7 +25,7 @@ const User = ({ user, onRemoveUser }) => {
             <Icon
                 size={1}
                 path={mdiDelete}
-                onClick={() => onRemoveUser(user._id)}
+                onClick={() => onRemoveUser(user.id)}
                 className={styles.deleteIcon}
             />
 

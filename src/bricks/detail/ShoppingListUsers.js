@@ -8,7 +8,7 @@ import Form from "react-bootstrap/Form";
 import { useState } from "react";
 import styles from "../../css/shoppingList.module.css";
 
-const ShoppingListUserList = ({ params: { users: userIds }, handlers: { onAddUser, onRemoveUser, getUser } }) => {
+const ShoppingListUserList = ({ params: { members }, handlers: { onAddUser, onRemoveUser, getUser } }) => {
 
 
     const [newUserName, setNewUserName] = useState("")
@@ -48,10 +48,10 @@ const ShoppingListUserList = ({ params: { users: userIds }, handlers: { onAddUse
                     </Form>
                 </Card.Header>
                 <ListGroup className={styles.usersListGroup}>
-                    {userIds.map((id) => (
+                    {members.map((member) => (
                         <User
-                            key={getUser(id)._id}
-                            user={getUser(id)}
+                            key={member.id}
+                            user={member}
                             onRemoveUser={onRemoveUser}
                         />
                     ))}

@@ -1,70 +1,242 @@
-import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
-import Icon from "@mdi/react";
-import { mdiLoading } from "@mdi/js";
-import styles from "../css/shoppingList.module.css";
+import { useEffect, useState } from "react"
+import { useSearchParams } from "react-router-dom"
+import Icon from "@mdi/react"
+import { mdiLoading } from "@mdi/js"
+import styles from "../css/shoppingList.module.css"
 
-import ViewDetail from "../bricks/detail/ViewDetail";
+import ViewDetail from "../bricks/detail/ViewDetail"
+import { useLocation } from "react-router-dom"
+import { Alert, Spinner } from "react-bootstrap"
 
 const ListDetail = () => {
+    const [shoppingList, setShoppingList] = useState(null)
+    const [error, setError] = useState(null)
+    const [loading, setLoading] = useState(true)
 
-    const [shoppingListLoadCall, setShoppingListLoadCall] = useState({
-        state: "pending",
-    });
-    let [searchParams] = useSearchParams();
+    const location = useLocation()
 
-    const shoppingListId = searchParams.get("id");
+    const id = location.pathname.split("/")[2]
 
     useEffect(() => {
-        setShoppingListLoadCall({
-            state: "pending",
-        });
+        // setLoading(true)
+        data(id)
+            .then((data) => {
+                setShoppingList(data)
+                setLoading(false)
+            })
+            .catch((error) => {
+                setError(error.message)
+                setLoading(false)
+            })
+    }, [])
 
-        const params = new URLSearchParams();
-        params.append("id", shoppingListId);
+    const handlers = getHandlers(shoppingList, setShoppingList)
 
-        const url = "http://localhost:3000/shopping-list/?" + params;
+    return (
+        <div>
+            {loading ? (
+                <Spinner animation="border" />
+            ): error ? (
+                <Alert variant="danger">{error}</Alert>
+            ) : (
+                <ViewDetail params={shoppingList} handlers={handlers} />
+            )}
+        </div>
+    )
+}
 
-        (async () => {
-            try {
-                const req = await fetch(url);
-                const res = await req.json();
-                if (req.status >= 400) {
-                    setShoppingListLoadCall({ state: "error", error: res });
-                } else {
-                    setShoppingListLoadCall({ state: "success", data: res });
-                }
-            } catch (err) {
-                setShoppingListLoadCall({ state: "error", error: err });
+const data = (id) => {
+    return new Promise((resolve, reject) => {
+        fetch(`http://localhost:8000/api/shopping-lists/${id}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': localStorage.getItem('token'),
+            },
+        })
+            .then(async (res) => {
+                const data = await res.json()
+                if (res.ok) resolve(data)
+                else reject(data)
+            })
+            .catch((error) => reject(error))
+    })
+}
+
+const getHandlers = (shoppingList, setShoppingList) => {
+    return {
+            // list hanlders
+            onRemoveList: () => {
+                return new Promise((resolve, reject) => {
+                    fetch(`http://localhost:8000/api/shopping-lists/${shoppingList.id}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Authorization': localStorage.getItem('token'),
+                        },
+                    })
+                        .then(async (res) => {
+                            const data = await res.json()
+                            if (res.ok) {
+                                setShoppingList(data)
+                                resolve()
+                            }
+                            else reject(data)
+                        })
+                        .catch((error) => reject(error))
+                })
+            },
+            onRenameList: (newName) => {
+                return new Promise((resolve, reject) => {
+                    fetch(`http://localhost:8000/api/shopping-lists/${shoppingList.id}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': localStorage.getItem('token'),
+                        },
+                        body: JSON.stringify({ name: newName }),
+                    })
+                        .then(async (res) => {
+                            const data = await res.json()
+                            if (res.ok) {
+                                setShoppingList(data)
+                                resolve()
+                            }
+                            else reject(data)
+                        })
+                        .catch((error) => reject(error))
+                })
+            },
+
+            // item handlers
+            onAddItem: (itemName) => {
+                return new Promise((resolve, reject) => {
+                    fetch(`http://localhost:8000/api/shopping-lists/${shoppingList.id}/items`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': localStorage.getItem('token'),
+                        },
+                        body: JSON.stringify({ name: itemName }),
+                    })
+                        .then(async (res) => {
+                            const data = await res.json()
+                            if (res.ok) {
+                                setShoppingList(data)
+                                resolve()
+                            }
+                            else reject(data)
+                        })
+                        .catch((error) => reject(error))
+                })
+            },
+            onRenameItem: (id, newName) => {
+                return new Promise((resolve, reject) => {
+                    fetch(`http://localhost:8000/api/shopping-lists/${shoppingList.id}/items/${id}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': localStorage.getItem('token'),
+                        },
+                        body: JSON.stringify({ name: newName }),
+                    })
+                        .then(async (res) => {
+                            const data = await res.json()
+                            if (res.ok) {
+                                setShoppingList(data)
+                                resolve()
+                            }
+                            else reject(data)
+                        })
+                        .catch((error) => reject(error))
+                })
+            },
+            onRemoveItem: (id) => {
+                return new Promise((resolve, reject) => {
+                    fetch(`http://localhost:8000/api/shopping-lists/${shoppingList.id}/items/${id}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Authorization': localStorage.getItem('token'),
+                        },
+                    })
+                        .then(async (res) => {
+                            const data = await res.json()
+                            if (res.ok) {
+                                setShoppingList(data)
+                                resolve()
+                            }
+                            else reject(data)
+                        })
+                        .catch((error) => reject(error))
+                })
+            },
+            onSwitchCompleted: (id) => {
+
+                const {isCompleted} = shoppingList.items.find(item => item.id === id)
+
+
+                return new Promise((resolve, reject) => {
+                    fetch(`http://localhost:8000/api/shopping-lists/${shoppingList.id}/items/${id}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': localStorage.getItem('token'),
+                        },
+                        body: JSON.stringify({ isCompleted: !isCompleted }),
+                    })
+                        .then(async (res) => {
+                            const data = await res.json()
+                            if (res.ok) {
+                                setShoppingList(data)
+                                console.log(data)
+                                resolve()
+                            }
+                            else reject(data)
+                        })
+                        .catch((error) => reject(error))
+                })
+            },
+            onAddUser: (tag) => {
+                return new Promise((resolve, reject) => {
+                    fetch(`http://localhost:8000/api/shopping-lists/${shoppingList.id}/users`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': localStorage.getItem('token'),
+                        },
+                        body: JSON.stringify({ tag }),
+                    })
+                        .then(async (res) => {
+                            const data = await res.json()
+                            if (res.ok) {
+                                setShoppingList(data)
+                                resolve()
+                            }
+                            else reject(data)
+                        })
+                        .catch((error) => reject(error))
+                })  
+            },
+            onRemoveUser: (id) => {
+                return new Promise((resolve, reject) => {
+                    fetch(`http://localhost:8000/api/shopping-lists/${shoppingList.id}/users/${id}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Authorization': localStorage.getItem('token'),
+                        },
+                    })
+                        .then(async (res) => {
+                            const data = await res.json()
+                            if (res.ok) {
+                                setShoppingList(data)
+                                resolve()
+                            }
+                            else reject(data)
+                        })
+                        .catch((error) => reject(error))
+                })
             }
-        })();
-        
-    }, [shoppingListId]);
-
-    return () => {
-        switch (shoppingListLoadCall.state) {
-            case "pending":
-                return (
-                    <div className={styles.loading}>
-                        <Icon size={2} path={mdiLoading} spin={true} />
-                    </div>
-                );
-            case "success":
-                return (
-                    <ViewDetail shoppingList={shoppingListLoadCall.data} />
-                );
-            case "error":
-                return (
-                    <div className={styles.error}>
-                        <div>Nepodařilo se načíst data o třídě.</div>
-                        <br />
-                        <pre>{JSON.stringify(shoppingListLoadCall.error, null, 2)}</pre>
-                    </div>
-                );
-            default:
-                return null;
-        }
     }
 }
+
+
 
 export default ListDetail

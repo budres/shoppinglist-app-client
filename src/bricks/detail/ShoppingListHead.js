@@ -27,7 +27,7 @@ const ShoppingListHead = ({ shoppingList, onRenameList, onRemoveList, onFilterBy
             return
         }
 
-        onRenameList(shoppingList._id, newName)
+        onRenameList(newName)
         setIsEditingName(false)
     }
 
@@ -108,7 +108,7 @@ const ShoppingListHead = ({ shoppingList, onRenameList, onRemoveList, onFilterBy
                                 <Icon
                                     size={1}
                                     path={mdiDelete}
-                                    onClick={() => onRemoveList(shoppingList._id)}
+                                    onClick={() => onRemoveList(shoppingList.id)}
                                     className={styles.deleteIcon}
                                 />
                             </Card.Text>

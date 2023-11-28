@@ -3,7 +3,7 @@ import Card from 'react-bootstrap/Card'
 
 // add info about shopping list
 
-const ShoppingListInfo = ({ params: { createdAt, isArchived, createdBy }, handlers: { getUser } }) => {
+const ShoppingListInfo = ({ params: { createdAt, isArchived, owner }}) => {
 
     return (
         <Card>
@@ -11,7 +11,7 @@ const ShoppingListInfo = ({ params: { createdAt, isArchived, createdBy }, handle
                 <Card.Title>Info</Card.Title>
                 <Card.Text>
                     Created at: {new Date(createdAt).toLocaleString()}<br />
-                    Created by: {getUser(createdBy).tag}<br />
+                    Created by: {owner.tag}<br />
                     Is archived: {isArchived ? 'Yes' : 'No'}<br />
                 </Card.Text>
             </Card.Body>
