@@ -89,6 +89,7 @@ const ShoppingListHead = ({ shoppingList, onRenameList, onRemoveList, onFilterBy
                                     size={1}
                                     path={mdiPencil}
                                     className={styles.icon}
+                                    style={{ marginLeft: "10px" }}
                                     onClick={handleEditName}
                                 />
                             </Card.Title>

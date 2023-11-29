@@ -27,7 +27,7 @@ const ViewDetail = ({params, handlers}) => {
                         handlers={handlers}
                     />
                 </Col>
-                <Col sm={12} lg={3}>
+                <Col sm={12} lg={6}>
                     <Col className={styles.viewInfoColumn}>
                         <ShoppingListInfo
                             params={params}

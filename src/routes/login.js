@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { Form, Button, Alert, Spinner } from 'react-bootstrap'
 
 const LoginForm = () => {
-    const [username, setUsername] = useState('')
+    const [tag, setTag] = useState('')
     const [password, setPassword] = useState('')
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
@@ -27,22 +27,27 @@ const LoginForm = () => {
     }, [navigate])
 
     const handleSubmit = async (e) => {
+
         e.preventDefault()
 
-        // Reset previous error message
-        setError('')
+        if (tag.length === 0 || password.length === 0) {
+            setError('Please fill out all fields.')
+            setLoading(false)
+            return
+        }
 
+        setError('')
         setLoading(true)
 
         try {
-            const response = await login(username, password)
-            const {token, user} = response
-            
+            const response = await login(tag[0] !== '@' ? '@' + tag : tag, password)
+            const { token, user } = response
+
             setToken(token)
             setUser(user)
 
             localStorage.setItem('token', token)
-            localStorage.setItem('user', JSON.stringify(user))  
+            localStorage.setItem('user', JSON.stringify(user))
 
             navigate('/shopping-lists')
         } catch (error) {
@@ -63,8 +68,8 @@ const LoginForm = () => {
                         <Form.Control
                             type="text"
                             placeholder="Enter your username"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
+                            value={tag}
+                            onChange={(e) => setTag(e.target.value)}
                         />
                     </Form.Group>
 

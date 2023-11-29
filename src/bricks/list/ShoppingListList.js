@@ -20,13 +20,16 @@ const ShoppingListList = ({ params: shoppingLists, handlers: { onCreate, onToggl
     const handleShow = () => setShow(true);
     const handleClose = () => setShow(false);
 
-    const handleSubmit = () => {
+    const handleSubmit = (e) => {
+        e.preventDefault()
+
         if (listName.trim() === "") {
             return
         }
 
         onCreate({ name: listName })
         handleClose()
+        setListName("")
     }
 
     const [filterByArchived, setFilterByArchived] = useState(false);
@@ -62,6 +65,13 @@ const ShoppingListList = ({ params: shoppingLists, handlers: { onCreate, onToggl
                                 placeholder="Enter list name"
                                 value={listName}
                                 onChange={((e) => setListName(e.target.value))}
+                                onKeyDown={(e) => {
+                                    if (e.key === "Enter") {
+                                        handleSubmit(e)
+                                    } else if (e.key === "Escape") {
+                                        handleClose()
+                                    }
+                                }}
                             />
                         </Form>
                     </Modal.Body>
@@ -69,7 +79,10 @@ const ShoppingListList = ({ params: shoppingLists, handlers: { onCreate, onToggl
                         <Button variant="light" onClick={handleClose}>
                             Close
                         </Button>
-                        <Button variant="secondary" onClick={handleSubmit}>
+                        <Button
+                            variant="secondary"
+                            onClick={(e) => handleSubmit(e)}
+                        >
                             Submit
                         </Button>
                     </Modal.Footer>

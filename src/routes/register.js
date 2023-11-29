@@ -19,15 +19,36 @@ const RegisterForm = () => {
             return
         }
 
+        if (name.length === 0 || tag.length === 0 || password.length === 0 || confirmPassword.length === 0) {
+            setError('Please fill out all fields.')
+            return
+        }
+
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/
+        if (!passwordRegex.test(password)) {
+            setError('Password is not strong enough.')
+            setLoading(false)
+            return
+        }
+
+        const tagRegex = /^[a-zA-Z0-9_]{3,}$/
+        if (!tagRegex.test(tag)) {
+            setError('Tag is not valid.')
+            setLoading(false)
+            return
+        }
+
         setError('')
 
         setLoading(true)
 
         try {
-            await register(name, tag, password)
+            await register(name, tag[0] !== '@' ? '@' + tag : tag, password)
             navigate('/login')
         } catch (error) {
             setError(error.message)
+            setPassword('')
+            setConfirmPassword('')
         } finally {
             setLoading(false)
         }

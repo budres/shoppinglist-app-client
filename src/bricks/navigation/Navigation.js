@@ -7,7 +7,7 @@ import styles from '../../css/shoppingList.module.css'
 import { Button, NavDropdown, Navbar, NavbarText } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 
-const Navigation = ({ params: {  }, handlers: {  } }) => {
+const Navigation = ({ params: { shoppingLists }, handlers: { } }) => {
 
     const navigate = useNavigate()
 
@@ -20,11 +20,20 @@ const Navigation = ({ params: {  }, handlers: {  } }) => {
 
     const user = JSON.parse(localStorage.getItem('user'))
 
+    const redirect = () => {
+        navigate('/shopping-lists')
+    }
+
     return (
         <Navbar>
-            <Navbar.Brand>Shopping List</Navbar.Brand>
-            <div>Search Bar</div>
-            <Navbar.Toggle/>
+            <Navbar.Brand onClick={redirect} style={{ cursor: "pointer" }}>Shopping List</Navbar.Brand>
+            <Form inline>
+                <Form.Control
+                    type="text"
+                    placeholder="Search"
+                />
+            </Form>
+            <Navbar.Toggle />
             <Navbar.Collapse>
                 <NavbarText>Logged in as {user.tag}</NavbarText>
                 <NavDropdown>
