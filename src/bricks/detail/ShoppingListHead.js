@@ -45,6 +45,8 @@ const ShoppingListHead = ({ shoppingList, onRenameList, onRemoveList, onFilterBy
         onFilterByCompleted(!filterByCompleted);
     }
 
+    shoppingList.totalItems = shoppingList.items.filter(item => item.isCompleted == false).length
+
     return (
         <Card>
             <Card.Body>
@@ -90,7 +92,7 @@ const ShoppingListHead = ({ shoppingList, onRenameList, onRemoveList, onFilterBy
                                     onClick={handleEditName}
                                 />
                             </Card.Title>
-                            <Card.Text>{shoppingList.totalItems} items</Card.Text>
+                            <Card.Text>{shoppingList.totalItems} {shoppingList.totalItems == 1 ? "item" : "items"}</Card.Text>
                         </div>
                         <div className="col-auto">
 

@@ -51,7 +51,7 @@ const ShoppingListItem = ({ shoppingListItem, onSwitchCompleted, onRenameItem, o
             {isEditing ? (
                 <>
                     <Form >
-                        <Form.Group>
+                        <Form.Group className={styles.itemFormGroup}>
                             <Form.Control
                                 type="text"
                                 value={itemName}
@@ -64,17 +64,10 @@ const ShoppingListItem = ({ shoppingListItem, onSwitchCompleted, onRenameItem, o
                                     }
                                 }}
                             />
-
                             <Icon
                                 size={1}
                                 path={mdiCheck}
                                 onClick={handleSaveItemName}
-                                className={styles.icon}
-                            />
-                            <Icon
-                                size={1}
-                                path={mdiClose}
-                                onClick={handleCancelEditItemName}
                                 className={styles.icon}
                             />
                         </Form.Group>

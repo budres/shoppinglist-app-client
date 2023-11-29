@@ -1,6 +1,7 @@
 /* icons */
 .icon {
     margin-right: 10px;
+    cursor: pointer;
 }
 
 .icon:hover {
@@ -50,17 +51,23 @@
 
 /* shoppingList item */
 .shoppingListItem {
-    display: flex !important; /* override bootstrap */
+    display: flex !important;
+    /* override bootstrap */
     align-items: center;
 }
 
 .shoppingListItemName {
-    max-width: 85%;
+    width: 85%;
 }
 
 .shoppingListItemNameCompleted {
     text-decoration: line-through;
-    max-width: 85%;
+    width: 85%;
+}
+
+.itemFormGroup {
+    display: flex;
+    align-items: center;
 }
 
 /* shoppingList users */
@@ -70,7 +77,8 @@
 
 /* shoppingList user */
 .userItem {
-    display: flex !important; /* override bootstrap */
+    display: flex !important;
+    /* override bootstrap */
     align-items: center;
 }
 

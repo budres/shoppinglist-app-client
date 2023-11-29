@@ -1,6 +1,6 @@
 import React from "react";
 
-import Navigation from "./Navigation";
+import Navigation from "../navigation/Navigation";
 import ShoppingListList from "./ShoppingListList";
 
 import { Container, Row, Col } from 'react-bootstrap';

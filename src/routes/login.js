@@ -36,13 +36,13 @@ const LoginForm = () => {
 
         try {
             const response = await login(username, password)
-            const token = response.token
+            const {token, user} = response
             
             setToken(token)
             setUser(user)
 
             localStorage.setItem('token', token)
-            localStorage.setItem('user', user)  
+            localStorage.setItem('user', JSON.stringify(user))  
 
             navigate('/shopping-lists')
         } catch (error) {

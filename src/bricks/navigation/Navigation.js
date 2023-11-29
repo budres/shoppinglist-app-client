@@ -4,10 +4,10 @@ import Form from 'react-bootstrap/Form'
 import Icon from '@mdi/react'
 import { mdiDelete, mdiPencil, mdiFilter, mdiFilterOutline, mdiCheck, mdiClose } from '@mdi/js'
 import styles from '../../css/shoppingList.module.css'
-import { Button, NavDropdown, Navbar } from 'react-bootstrap'
+import { Button, NavDropdown, Navbar, NavbarText } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 
-const Navigation = ({ params: { users }, handlers: { onLogout } }) => {
+const Navigation = ({ params: {  }, handlers: {  } }) => {
 
     const navigate = useNavigate()
 
@@ -18,18 +18,39 @@ const Navigation = ({ params: { users }, handlers: { onLogout } }) => {
             })
     }
 
+    const user = JSON.parse(localStorage.getItem('user'))
+
     return (
         <Navbar>
             <Navbar.Brand>Shopping List</Navbar.Brand>
             <div>Search Bar</div>
-            <Navbar.Toggle />
+            <Navbar.Toggle/>
             <Navbar.Collapse>
+                <NavbarText>Logged in as {user.tag}</NavbarText>
                 <NavDropdown>
                     <Button onClick={handleLogout}>Logout</Button>
                 </NavDropdown>
             </Navbar.Collapse>
         </Navbar>
     )
+}
+
+const onLogout = () => {
+    return new Promise((resolve, reject) => {
+        fetch('http://localhost:8000/api/auth/logout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem('token'),
+            },
+        })
+            .then(async (res) => {
+                const data = await res.json()
+                if (res.ok) resolve(data)
+                else reject(data)
+            })
+            .catch((error) => reject(error))
+    })
 }
 
 export default Navigation

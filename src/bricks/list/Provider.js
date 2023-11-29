@@ -104,24 +104,6 @@ const getHandlers = (shoppingLists, setShoppingLists) => {
                     })
                     .catch((error) => reject(error))
             })
-        },
-
-        onLogout: () => {
-            return new Promise((resolve, reject) => {
-                fetch('http://localhost:8000/api/auth/logout', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': localStorage.getItem('token'),
-                    },
-                })
-                    .then(async (res) => {
-                        const data = await res.json()
-                        if (res.ok) resolve(data)
-                        else reject(data)
-                    })
-                    .catch((error) => reject(error))
-            })
         }
     }
 }
